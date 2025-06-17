@@ -15,30 +15,31 @@
   color: #fff;
 }
 
-body::before {
-  content: '';
+.slideshow-bg {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: -1;
-  background-size: cover;
-  background-position: center;
-  animation: slideshow 25s infinite;
+  overflow: hidden;
 }
 
-@keyframes slideshow {
-  0% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/2.jpg'); }
-  20% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/52.png'); }
-  40% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/48.jpg'); }
-  60% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/5.jpg'); }
-  80% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/4.png'); }
-  100% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/2.jpg'); }
+.slideshow-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slideshow-bg img.active {
+  opacity: 1;
 }
 
 nav {
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: transparent;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -50,7 +51,8 @@ nav a {
   color: #ff4444;
   text-decoration: none;
   font-weight: bold;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 1.1rem;
 }
 
 nav a:hover {
@@ -61,10 +63,10 @@ nav a:hover {
 
 .section {
   display: none;
-  padding: 5rem 2rem 6rem;
-  max-width: 1000px;
+  padding: 6rem 3rem 8rem;
+  max-width: 1200px;
   margin: auto;
-  min-height: 80vh;
+  min-height: 85vh;
 }
 
 .section.active {
@@ -73,32 +75,33 @@ nav a:hover {
 
 header {
   text-align: center;
-  padding: 10rem 2rem 4rem;
+  padding: 12rem 2rem 6rem;
 }
 
 header h1 {
-  font-size: 3rem;
+  font-size: 4rem;
   margin-bottom: 1rem;
   color: #ff3333;
 }
 
 header p {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   color: #ccc;
-  max-width: 700px;
+  max-width: 800px;
   margin: auto;
 }
 
 .footer {
   text-align: center;
   padding: 2rem;
-  font-size: 0.9rem;
-  background: rgba(0, 0, 0, 0.8);
+  font-size: 1rem;
   color: #aaa;
 }
 
 h2 {
+  font-size: 2.5rem;
   color: #ff3333;
+  margin-bottom: 1rem;
 }
 
 a.link {
@@ -108,6 +111,14 @@ a.link {
 
 a.link:hover {
   text-decoration: underline;
+}
+
+.news-img {
+  width: 100%;
+  max-width: 800px;
+  display: block;
+  margin: 2rem auto;
+  border-radius: 10px;
 }
 
 @media (max-width: 600px) {
@@ -128,7 +139,13 @@ a.link:hover {
   </style>
 </head>
 <body>
-  <nav>
+  <div class="slideshow-bg">
+    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/2.jpg" class="slide active">
+    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/52.png" class="slide">
+    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/48.jpg" class="slide">
+    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/5.jpg" class="slide">
+    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/4.png" class="slide">
+  </div>  <nav>
     <a href="#home">Home</a>
     <a href="#discords">Discords</a>
     <a href="#projects">Projects</a>
@@ -160,7 +177,7 @@ a.link:hover {
     <h2>2b2tMCPE Weekly News</h2>
     <p><strong>Headline:</strong> Editable headline goes here</p>
     <p><strong>Date:</strong> Editable date</p>
-    <img src="https://via.placeholder.com/300x150" alt="News Image">
+    <img src="https://via.placeholder.com/1000x500" alt="News Image" class="news-img">
     <p>This is a placeholder paragraph for the weekly update. Admins can update this section in the files directly.</p>
   </section>  <section id="contact" class="section">
     <h2>Contact</h2>
@@ -176,20 +193,22 @@ a.link:hover {
     © 2025 2B2TMCPE Hub. All rights reserved.
   </div>  <script>
     const sections = document.querySelectorAll('.section');
-
     function showHashSection() {
       const hash = window.location.hash.substring(1) || 'home';
-
       sections.forEach(sec => {
-        if (sec.id === hash) {
-          sec.classList.add('active');
-        } else {
-          sec.classList.remove('active');
-        }
+        sec.classList.toggle('active', sec.id === hash);
       });
     }
-
     window.addEventListener('hashchange', showHashSection);
     window.addEventListener('load', showHashSection);
+
+    // Slideshow script
+    const slides = document.querySelectorAll('.slideshow-bg .slide');
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 5000);
   </script></body>
-            </html>
+        </html>
