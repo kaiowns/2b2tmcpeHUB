@@ -1,141 +1,193 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>2B2TMCPE HUB</title>
   <style>
+    :root {
+      --text-size-desktop: 1.25rem; /* Define a variable for consistent "big" text size */
+    }
+
     * {
       box-sizing: border-box;
-    }html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #000;
-  color: #fff;
-}
+    }
 
-.slideshow-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  overflow: hidden;
-}
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #000;
+      color: #fff;
+    }
 
-.slideshow-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
+    .slideshow-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Keep it in the background */
+      overflow: hidden;
+    }
 
-.slideshow-bg img.active {
-  opacity: 1;
-}
+    /* REMOVED: The dark overlay was previously here */
 
-nav {
-  background-color: transparent;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 1rem;
-  gap: 1rem;
-}
+    .slideshow-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      /* No z-index needed here as the overlay is gone, content will be above by default */
+    }
 
-nav a {
-  color: #ff4444;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 0.75rem 1.25rem;
-  font-size: 1.1rem;
-}
+    .slideshow-bg img.active {
+      opacity: 1;
+    }
 
-nav a:hover {
-  background: #ff4444;
-  color: #000;
-  border-radius: 5px;
-}
+    nav {
+      background-color: transparent;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+      gap: 1rem;
+      position: relative; /* Ensure nav is above the slideshow */
+      z-index: 2; /* Explicitly set z-index to ensure it's on top */
+    }
 
-.section {
-  display: none;
-  padding: 6rem 3rem 8rem;
-  max-width: 1200px;
-  margin: auto;
-  min-height: 85vh;
-}
+    nav a {
+      color: #ff4444;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.75rem 1.25rem;
+      font-size: 1.1rem;
+    }
 
-.section.active {
-  display: block;
-}
+    nav a:hover {
+      background: #ff4444;
+      color: #000;
+      border-radius: 5px;
+    }
 
-header {
-  text-align: center;
-  padding: 12rem 2rem 6rem;
-}
+    .section {
+      display: none;
+      padding: 6rem 3rem 8rem;
+      max-width: 1200px;
+      margin: auto;
+      min-height: 85vh;
+      position: relative; /* Ensure sections are above the slideshow */
+      z-index: 2; /* Explicitly set z-index to ensure it's on top */
+      background-color: rgba(0, 0, 0, 0.6); /* Added a subtle dark background to content sections for readability over bright images */
+      border-radius: 10px;
+      margin-bottom: 20px; /* Add some space between sections for better visual separation */
+    }
 
-header h1 {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-  color: #ff3333;
-}
+    .section.active {
+      display: block;
+    }
 
-header p {
-  font-size: 1.5rem;
-  color: #ccc;
-  max-width: 800px;
-  margin: auto;
-}
+    header {
+      text-align: center;
+      padding: 12rem 2rem 6rem;
+    }
 
-.footer {
-  text-align: center;
-  padding: 2rem;
-  font-size: 1rem;
-  color: #aaa;
-}
+    header h1 {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      color: #ff3333;
+    }
 
-h2 {
-  font-size: 2.5rem;
-  color: #ff3333;
-  margin-bottom: 1rem;
-}
+    header p {
+      font-size: 1.5rem;
+      color: #ccc;
+      max-width: 800px;
+      margin: auto;
+    }
 
-a.link {
-  color: #44ccff;
-  text-decoration: none;
-}
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 1rem;
+      color: #aaa;
+      position: relative; /* Ensure footer is above the slideshow */
+      z-index: 2; /* Explicitly set z-index to ensure it's on top */
+      background-color: rgba(0, 0, 0, 0.7); /* Subtle background for footer */
+    }
 
-a.link:hover {
-  text-decoration: underline;
-}
+    h2 {
+      font-size: 2.5rem;
+      color: #ff3333;
+      margin-bottom: 1rem;
+    }
 
-.news-img {
-  width: 100%;
-  max-width: 800px;
-  display: block;
-  margin: 2rem auto;
-  border-radius: 10px;
-}
+    /* Apply the consistent "big" text size to all relevant text in hash sections */
+    .section p,
+    .section ul li {
+      font-size: var(--text-size-desktop); /* Use the CSS variable for desktop text size */
+      line-height: 1.6;
+    }
 
-@media (max-width: 600px) {
-  nav {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-    justify-items: center;
-  }
+    a.link {
+      color: #44ccff;
+      text-decoration: none;
+    }
 
-  nav a {
-    width: 100%;
-    text-align: center;
-    padding: 0.75rem;
-  }
-}
+    a.link:hover {
+      text-decoration: underline;
+    }
 
+    .news-img {
+      width: 100%;
+      max-width: 800px;
+      display: block;
+      margin: 2rem auto;
+      border-radius: 10px;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column; /* Stack nav items vertically */
+        gap: 0.5rem;
+        padding: 0.5rem;
+      }
+
+      nav a {
+        width: 90%; /* Make nav links take up more width */
+        margin: 0 auto; /* Center them */
+        text-align: center;
+        padding: 0.75rem;
+      }
+
+      header {
+        padding: 6rem 1rem 3rem; /* Adjust header padding for mobile */
+      }
+
+      header h1 {
+        font-size: 2.5rem; /* Smaller heading for mobile */
+      }
+
+      header p {
+        font-size: 1.2rem; /* Smaller paragraph for mobile */
+      }
+
+      .section {
+        padding: 3rem 1.5rem 4rem; /* Adjust section padding for mobile */
+      }
+
+      h2 {
+        font-size: 2rem; /* Smaller section headings for mobile */
+      }
+
+      /* Adjust text size for mobile for all relevant text in hash sections */
+      .section p,
+      .section ul li {
+        font-size: 1rem; /* Smaller text for mobile */
+      }
+    }
   </style>
 </head>
 <body>
@@ -145,19 +197,22 @@ a.link:hover {
     <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/48.jpg" class="slide">
     <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/5.jpg" class="slide">
     <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/4.png" class="slide">
-  </div>  <nav>
+  </div>
+  <nav>
     <a href="#home">Home</a>
     <a href="#discords">Discords</a>
     <a href="#projects">Projects</a>
     <a href="#wiki">Wiki</a>
     <a href="#news">News</a>
     <a href="#contact">Contact</a>
-  </nav>  <section id="home" class="section">
+  </nav>
+  <section id="home" class="section">
     <header>
       <h1>2B2TMCPE HUB</h1>
       <p>The hub for all the essentials of the 2b2tMCPE community — related websites, Discord servers, projects, and more.</p>
     </header>
-  </section>  <section id="discords" class="section">
+  </section>
+  <section id="discords" class="section">
     <h2>Discord Servers</h2>
     <ul>
       <li><a href="https://discord.gg/ZFHevJ9bdW" class="link">2b2tMCPE Central</a> — Main community server for news, chat, and updates.</li>
@@ -165,21 +220,25 @@ a.link:hover {
       <li><a href="https://discord.gg/eUsE2kpB7u" class="link">Mapart Archive</a> — Repository of community-created map art.</li>
       <li><a href="https://discord.gg/YkreMTvjvV" class="link">2b2tMCPE Wiki Server</a> — Hub for wiki collaboration and general discussion.</li>
     </ul>
-  </section>  <section id="projects" class="section">
+  </section>
+  <section id="projects" class="section">
     <h2>Featured Project</h2>
     <p><strong>Lookup Bot</strong> — Discord bot to lookup player join dates on 2b2tMCPE by username.</p>
     <p>Credits: <a class="link" href="https://github.com/kaiowns">kaiowns</a>, <a class="link" href="https://github.com/elpablo5542">elpablo5542</a></p>
-  </section>  <section id="wiki" class="section">
+  </section>
+  <section id="wiki" class="section">
     <h2>2b2tMCPE Wiki</h2>
     <p>Explore the growing knowledge base of 2b2tMCPE players and events.</p>
     <a class="link" href="https://example.com">Visit the Wiki</a>
-  </section>  <section id="news" class="section">
+  </section>
+  <section id="news" class="section">
     <h2>2b2tMCPE Weekly News</h2>
     <p><strong>Headline:</strong> Editable headline goes here</p>
     <p><strong>Date:</strong> Editable date</p>
     <img src="https://via.placeholder.com/1000x500" alt="News Image" class="news-img">
     <p>This is a placeholder paragraph for the weekly update. Admins can update this section in the files directly.</p>
-  </section>  <section id="contact" class="section">
+  </section>
+  <section id="contact" class="section">
     <h2>Contact</h2>
     <p>Email: example@example.com</p>
     <p>Discord contacts:</p>
@@ -189,9 +248,11 @@ a.link:hover {
       <li>@support#9876</li>
       <li>@dev#5432</li>
     </ul>
-  </section>  <div class="footer">
+  </section>
+  <div class="footer">
     © 2025 2B2TMCPE Hub. All rights reserved.
-  </div>  <script>
+  </div>
+  <script>
     const sections = document.querySelectorAll('.section');
     function showHashSection() {
       const hash = window.location.hash.substring(1) || 'home';
@@ -210,5 +271,7 @@ a.link:hover {
       current = (current + 1) % slides.length;
       slides[current].classList.add('active');
     }, 5000);
-  </script></body>
-        </html>
+  </script>
+</body>
+      </html>
+  
