@@ -1,37 +1,37 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>2B2TMCPE HUB</title>
   <style>
     body, html {
       margin: 0;
       padding: 0;
+      height: 100%;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
       background-color: #000;
-      color: #eee;
-      scroll-behavior: smooth;
-    }.background {
+    }.slideshow-container {
   position: fixed;
-  z-index: -2;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  z-index: -1;
   overflow: hidden;
 }
 
-.background img {
+.slideshow-container img {
+  position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
-.active {
-  opacity: 1 !important;
+.slideshow-container img.active {
+  opacity: 1;
 }
 
 .overlay {
@@ -40,21 +40,18 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: -1;
 }
 
 nav {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
+  background-color: rgba(0, 0, 0, 0.85);
   padding: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  position: sticky;
+  top: 0;
   z-index: 10;
 }
 
@@ -68,171 +65,139 @@ nav a:hover {
   text-decoration: underline;
 }
 
+.section {
+  display: none;
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.section.active {
+  display: block;
+}
+
 header {
   text-align: center;
-  padding: 6rem 2rem 2rem;
-  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10rem 2rem 4rem;
 }
 
 header h1 {
   font-size: 3rem;
-  color: #b30000;
+  margin-bottom: 1rem;
+  color: #ff3333;
 }
 
 header p {
   font-size: 1.2rem;
   color: #ccc;
-}
-
-section {
-  padding: 4rem 2rem;
-  max-width: 1000px;
+  max-width: 700px;
   margin: auto;
-  background-color: rgba(0, 0, 0, 0.75);
-  border-radius: 10px;
-  margin-bottom: 3rem;
-}
-
-section h2 {
-  border-bottom: 2px solid #b30000;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.card {
-  background: #111;
-  border: 1px solid #222;
-  padding: 1rem;
-  margin: 1rem 0;
-  border-left: 5px solid #b30000;
-}
-
-.card a {
-  color: #ff5555;
-  text-decoration: none;
-}
-
-.card a:hover {
-  text-decoration: underline;
-}
-
-.news {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.news img {
-  max-width: 300px;
-  max-height: 200px;
-  object-fit: cover;
 }
 
 .footer {
   text-align: center;
   padding: 2rem;
   font-size: 0.9rem;
-  background: #111;
-  color: #666;
+  background: rgba(0, 0, 0, 0.8);
+  color: #aaa;
 }
 
-@media(max-width: 768px) {
-  nav {
-    justify-content: center;
-  }
+h2 {
+  color: #ff3333;
+}
 
-  .news {
-    flex-direction: column;
-  }
+a.link {
+  color: #44ccff;
+  text-decoration: none;
+}
 
-  .news img {
-    width: 100%;
-  }
+a.link:hover {
+  text-decoration: underline;
 }
 
   </style>
 </head>
 <body>
-  <div class="background">
-    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/2.jpg" class="slide active">
-    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/52.png" class="slide">
-    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/48.jpg" class="slide">
-    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/5.jpg" class="slide">
-    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/4.png" class="slide">
+  <div id="slideshow" class="slideshow-container">
+    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/2.jpg" class="active">
+    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/52.png">
+    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/48.jpg">
+    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/5.jpg">
+    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/4.png">
   </div>
-  <div class="overlay"></div>  <nav>
+  <div class="overlay" id="overlay"></div>  <nav>
+    <a href="#home">Home</a>
     <a href="#discords">Discords</a>
     <a href="#projects">Projects</a>
     <a href="#wiki">Wiki</a>
     <a href="#news">News</a>
     <a href="#contact">Contact</a>
-  </nav>  <header>
-    <h1>2B2TMCPE HUB</h1>
-    <p>The hub for all the essentials of the 2b2tMCPE community — related websites, Discord servers, projects, and more.</p>
-  </header>  <section id="discords">
-    <h2>Community Discords</h2>
-    <div class="card">
-      <strong>2b2tMCPE Official</strong><br>
-      The main Discord server for general discussion and coordination in the 2b2tMCPE world.<br>
-      <a href="https://discord.gg/ZFHevJ9bdW" target="_blank">Join Server</a>
-    </div>
-    <div class="card">
-      <strong>Tim’s MCPE Library</strong><br>
-      A historical archive of events, screenshots, and lore from 2b2tMCPE's rich past.<br>
-      <a href="https://discord.gg/gUycebGvEs" target="_blank">Join Server</a>
-    </div>
-    <div class="card">
-      <strong>Mapart Archive</strong><br>
-      Dedicated to preserving player-made mapart from across 2b2tMCPE.<br>
-      <a href="https://discord.gg/eUsE2kpB7u" target="_blank">Join Server</a>
-    </div>
-    <div class="card">
-      <strong>2b2tMCPE Hub Community</strong><br>
-      Central community hub tied to this website and its development — hang out, contribute, or just stay informed.<br>
-      <a href="https://discord.gg/YkreMTvjvV" target="_blank">Join Server</a>
-    </div>
-  </section>  <section id="projects">
-    <h2>Featured Projects</h2>
-    <div class="card">
-      <strong>Lookup Bot</strong><br>
-      A Discord bot that allows users to look up the join dates of 2b2tMCPE players via username.<br>
-      Credits to: <a href="https://github.com/kaiowns" target="_blank">kaiowns</a> & <a href="https://github.com/elpablo5542" target="_blank">elpablo5542</a><br>
-      <em>Note: Closed source.</em>
-    </div>
-  </section>  <section id="wiki">
-    <h2>2b2tMCPE Wiki</h2>
-    <p>For in-depth history, player information, group pages, and more — visit the official community wiki.</p>
-    <a href="https://example.com/wiki" target="_blank">Visit Wiki</a>
-  </section>  <section id="news">
-    <h2>2b2tMCPE Weekly News</h2>
-    <div class="news">
-      <div>
-        <strong>Headline</strong><br>
-        <em>Date: [Editable]</em><br>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. This is a placeholder paragraph for community-generated news updates editable by site admin.</p>
-      </div>
-      <img src="https://via.placeholder.com/300x200" alt="News Image">
-    </div>
-  </section>  <section id="contact">
-    <h2>Contact</h2>
-    <p>For inquiries or collaborations, feel free to reach out. Official contact email coming soon.</p>
+  </nav>  <section id="home" class="section">
+    <header>
+      <h1>2B2TMCPE HUB</h1>
+      <p>The hub for all the essentials of the 2b2tMCPE community — related websites, Discord servers, projects, and more.</p>
+    </header>
+  </section>  <section id="discords" class="section">
+    <h2>Discord Servers</h2>
     <ul>
-      <li>Discord: user1#0001</li>
-      <li>Discord: user2#0002</li>
-      <li>Discord: user3#0003</li>
-      <li>Discord: user4#0004</li>
+      <li><a href="https://discord.gg/ZFHevJ9bdW" class="link">2b2tMCPE Central</a> — Main community server for news, chat, and updates.</li>
+      <li><a href="https://discord.gg/gUycebGvEs" class="link">Tim's MCPE Library</a> — Historical archives of 2b2tMCPE history and content.</li>
+      <li><a href="https://discord.gg/eUsE2kpB7u" class="link">Mapart Archive</a> — Repository of community-created map art.</li>
+      <li><a href="https://discord.gg/YkreMTvjvV" class="link">2b2tMCPE Wiki Server</a> — Hub for wiki collaboration and general discussion.</li>
+    </ul>
+  </section>  <section id="projects" class="section">
+    <h2>Featured Project</h2>
+    <p><strong>Lookup Bot</strong> — Discord bot to lookup player join dates on 2b2tMCPE by username.</p>
+    <p>Credits: <a class="link" href="https://github.com/kaiowns">kaiowns</a>, <a class="link" href="https://github.com/elpablo5542">elpablo5542</a></p>
+  </section>  <section id="wiki" class="section">
+    <h2>2b2tMCPE Wiki</h2>
+    <p>Explore the growing knowledge base of 2b2tMCPE players and events.</p>
+    <a class="link" href="https://example.com">Visit the Wiki</a>
+  </section>  <section id="news" class="section">
+    <h2>2b2tMCPE Weekly News</h2>
+    <p><strong>Headline:</strong> Editable headline goes here</p>
+    <p><strong>Date:</strong> Editable date</p>
+    <img src="https://via.placeholder.com/300x150" alt="News Image">
+    <p>This is a placeholder paragraph for the weekly update. Admins can update this section in the files directly.</p>
+  </section>  <section id="contact" class="section">
+    <h2>Contact</h2>
+    <p>Email: example@example.com</p>
+    <p>Discord contacts:</p>
+    <ul>
+      <li>@admin#1234</li>
+      <li>@mod#5678</li>
+      <li>@support#9876</li>
+      <li>@dev#5432</li>
     </ul>
   </section>  <div class="footer">
-    © 2025 2B2TMCPE Hub. All rights reserved.<br>
-    Site maintained by the community.
+    © 2025 2B2TMCPE Hub. All rights reserved.
   </div>  <script>
-    const slides = document.querySelectorAll('.slide');
+    const slides = document.querySelectorAll('.slideshow-container img');
     let current = 0;
-    function showNextSlide() {
+    setInterval(() => {
       slides[current].classList.remove('active');
       current = (current + 1) % slides.length;
       slides[current].classList.add('active');
+    }, 5000);
+
+    const sections = document.querySelectorAll('.section');
+    const slideshow = document.getElementById('slideshow');
+    const overlay = document.getElementById('overlay');
+
+    function showHashSection() {
+      const hash = window.location.hash.substring(1) || 'home';
+      sections.forEach(sec => sec.style.display = 'none');
+      document.getElementById(hash).style.display = 'block';
+      if (hash === 'home') {
+        slideshow.style.display = 'block';
+        overlay.style.display = 'block';
+      } else {
+        slideshow.style.display = 'none';
+        overlay.style.display = 'none';
+      }
     }
-    setInterval(showNextSlide, 5000);
+
+    window.addEventListener('hashchange', showHashSection);
+    window.addEventListener('load', showHashSection);
   </script></body>
-  </html>
+</html>
