@@ -4,72 +4,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>2B2TMCPE HUB</title>
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #fff;
-      background-color: #000;
-    }.slideshow-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+    * {
+      box-sizing: border-box;
+    }html, body {
+  margin: 0;
+  padding: 0;
   height: 100%;
-  z-index: -1;
-  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #000;
+  color: #fff;
 }
 
-.slideshow-container img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
-}
-
-.slideshow-container img.active {
-  opacity: 1;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: -1;
+body.home {
+  background: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/2.jpg') no-repeat center center fixed;
+  background-size: cover;
 }
 
 nav {
   background-color: rgba(0, 0, 0, 0.85);
-  padding: 1rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 2rem;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  padding: 1rem;
+  gap: 1rem;
 }
 
 nav a {
   color: #ff4444;
   text-decoration: none;
   font-weight: bold;
+  padding: 0.5rem 1rem;
 }
 
 nav a:hover {
-  text-decoration: underline;
+  background: #ff4444;
+  color: #000;
+  border-radius: 5px;
 }
 
 .section {
   display: none;
-  padding: 4rem 2rem;
+  padding: 5rem 2rem 6rem;
   max-width: 1000px;
   margin: auto;
+  min-height: 80vh;
 }
 
 .section.active {
@@ -115,17 +93,17 @@ a.link:hover {
   text-decoration: underline;
 }
 
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
   </style>
 </head>
 <body>
-  <div id="slideshow" class="slideshow-container">
-    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/2.jpg" class="active">
-    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/52.png">
-    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/48.jpg">
-    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/5.jpg">
-    <img src="https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/4.png">
-  </div>
-  <div class="overlay" id="overlay"></div>  <nav>
+  <nav>
     <a href="#home">Home</a>
     <a href="#discords">Discords</a>
     <a href="#projects">Projects</a>
@@ -172,32 +150,22 @@ a.link:hover {
   </section>  <div class="footer">
     © 2025 2B2TMCPE Hub. All rights reserved.
   </div>  <script>
-    const slides = document.querySelectorAll('.slideshow-container img');
-    let current = 0;
-    setInterval(() => {
-      slides[current].classList.remove('active');
-      current = (current + 1) % slides.length;
-      slides[current].classList.add('active');
-    }, 5000);
-
     const sections = document.querySelectorAll('.section');
-    const slideshow = document.getElementById('slideshow');
-    const overlay = document.getElementById('overlay');
 
     function showHashSection() {
       const hash = window.location.hash.substring(1) || 'home';
-      sections.forEach(sec => sec.style.display = 'none');
-      document.getElementById(hash).style.display = 'block';
-      if (hash === 'home') {
-        slideshow.style.display = 'block';
-        overlay.style.display = 'block';
-      } else {
-        slideshow.style.display = 'none';
-        overlay.style.display = 'none';
-      }
+      document.body.classList.toggle('home', hash === 'home');
+
+      sections.forEach(sec => {
+        if (sec.id === hash) {
+          sec.classList.add('active');
+        } else {
+          sec.classList.remove('active');
+        }
+      });
     }
 
     window.addEventListener('hashchange', showHashSection);
     window.addEventListener('load', showHashSection);
   </script></body>
-</html>
+  </html>
