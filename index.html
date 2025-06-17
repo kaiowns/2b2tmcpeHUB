@@ -15,9 +15,26 @@
   color: #fff;
 }
 
-body.home {
-  background: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/2.jpg') no-repeat center center fixed;
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
   background-size: cover;
+  background-position: center;
+  animation: slideshow 25s infinite;
+}
+
+@keyframes slideshow {
+  0% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/2.jpg'); }
+  20% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/52.png'); }
+  40% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/48.jpg'); }
+  60% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/5.jpg'); }
+  80% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/4.png'); }
+  100% { background-image: url('https://raw.githubusercontent.com/kaiowns/2b2tmcpeHUB/refs/heads/main/slideshow/2.jpg'); }
 }
 
 nav {
@@ -95,8 +112,16 @@ a.link:hover {
 
 @media (max-width: 600px) {
   nav {
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    justify-items: center;
+  }
+
+  nav a {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem;
   }
 }
 
@@ -154,7 +179,6 @@ a.link:hover {
 
     function showHashSection() {
       const hash = window.location.hash.substring(1) || 'home';
-      document.body.classList.toggle('home', hash === 'home');
 
       sections.forEach(sec => {
         if (sec.id === hash) {
@@ -168,4 +192,4 @@ a.link:hover {
     window.addEventListener('hashchange', showHashSection);
     window.addEventListener('load', showHashSection);
   </script></body>
-  </html>
+            </html>
