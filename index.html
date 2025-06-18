@@ -5,8 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>2B2TMCPE HUB</title>
   <style>
+    /* --- Global Resets & Variables --- */
     :root {
-      --text-size-desktop: 1.25rem; /* Consistent "big" text size */
+      --primary-color: #ff3333; /* For headings and accents */
+      --secondary-color: #44ccff; /* For links */
+      --text-color-light: #ccc;
+      --text-color-white: #fff;
+      --background-dark: #000;
+
+      --font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+      /* Desktop Sizes */
+      --font-size-nav: 1.1rem;
+      --font-size-h1-desktop: 4rem;
+      --font-size-h2-desktop: 2.5rem;
+      --font-size-p-desktop: 1.25rem;
+      --font-size-footer: 1rem;
+
+      /* Mobile Sizes */
+      --font-size-h1-mobile: 2.5rem;
+      --font-size-h2-mobile: 1.8rem;
+      --font-size-p-mobile: 1.1rem; /* Slightly larger for main text readability on mobile */
+      --font-size-nav-mobile: 1rem;
     }
 
     * {
@@ -17,34 +37,21 @@
 
     html, body {
       height: 100%;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #000; /* Fallback background */
-      color: #fff;
+      font-family: var(--font-family-base);
+      color: var(--text-color-white);
+      background-color: var(--background-dark); /* Fallback background */
       overflow-x: hidden; /* Prevent horizontal scroll */
-      position: relative; /* Needed for the ::before overlay */
+      position: relative; /* For body::before overlay */
     }
 
-    /* Global Dark Overlay for Readability over Slideshow */
-    /* This will cover the entire content area behind the main elements */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.6); /* Adjust transparency (0.4 to 0.7 usually works) */
-      z-index: -1; /* Above slideshow, below content */
-    }
-
-    /* Slideshow Background */
+    /* --- Background Slideshow & Overlay --- */
     .slideshow-bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -2; /* Even lower z-index to be truly in the background */
+      z-index: -2; /* Deepest layer */
       overflow: hidden;
     }
 
@@ -61,97 +68,127 @@
       opacity: 1;
     }
 
-    /* Navigation Bar */
+    /* Global semi-transparent overlay to ensure text readability over bright/busy images */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* Adjust transparency here (0.4 for lighter, 0.8 for darker) */
+      z-index: -1; /* Above slideshow, below content */
+    }
+
+    /* --- Navigation Bar --- */
     nav {
-      background-color: transparent; /* Keep transparent */
+      background-color: transparent; /* Remains transparent */
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       padding: 1rem;
       gap: 1rem;
-      position: relative; /* Ensure it's above the overlay */
-      z-index: 10; /* High z-index to ensure it's always on top */
+      position: relative; /* Ensures it's above the body::before overlay */
+      z-index: 10; /* High z-index */
     }
 
     nav a {
-      color: #ff4444;
+      color: var(--primary-color);
       text-decoration: none;
       font-weight: bold;
       padding: 0.75rem 1.25rem;
-      font-size: 1.1rem;
+      font-size: var(--font-size-nav);
       transition: background 0.3s ease, color 0.3s ease;
+      white-space: nowrap; /* Prevent nav links from breaking onto multiple lines */
     }
 
     nav a:hover {
-      background: #ff4444;
-      color: #000;
+      background: var(--primary-color);
+      color: var(--background-dark);
       border-radius: 5px;
     }
 
-    /* Sections (Content Areas) */
+    /* --- Main Content Sections --- */
+    .section-wrapper {
+      /* This wrapper ensures content is centered and takes space, allowing slideshow to be seen around it */
+      max-width: 1200px;
+      margin: 20px auto; /* Centered with some margin */
+      padding: 0 1rem; /* Padding for small screens, removed from .section */
+      position: relative; /* To contain its children and ensure z-index */
+      z-index: 1; /* Above the body::before overlay */
+    }
+
     .section {
       display: none;
-      padding: 4rem 3rem 6rem;
-      max-width: 1200px;
-      margin: 20px auto;
-      min-height: calc(85vh - 60px); /* Adjusted min-height */
-      position: relative;
-      z-index: 1; /* Above the body::before overlay */
-      /* REMOVED: background-color from here - content should float over the global overlay */
-      border-radius: 10px; /* Kept for aesthetics, but less impactful now */
+      padding: 4rem 3rem 6rem; /* Internal padding for content */
+      background-color: rgba(0, 0, 0, 0.7); /* **Subtle background for content readability inside sections** */
+      border-radius: 10px;
+      margin-bottom: 20px; /* Space between sections if multiple were active (though not used currently) */
+      min-height: calc(85vh - 60px); /* Ensures sections take up vertical space */
     }
 
     .section.active {
       display: block;
     }
 
-    /* Header (Home Page Specific) */
-    header {
+    /* --- Header (Home Page) --- */
+    #home.section {
+      /* Specific styling for the home section to stand out */
+      background-color: rgba(0, 0, 0, 0.6); /* Slightly more transparent for home */
       text-align: center;
-      padding: 8rem 2rem 4rem; /* Reduced padding for a tighter feel */
-      /* REMOVED: background-color from header, as global overlay handles readability */
+      padding: 8rem 2rem 4rem; /* Adjusted header padding */
     }
 
-    header h1 {
-      font-size: 4rem;
+    #home h1 {
+      font-size: var(--font-size-h1-desktop);
       margin-bottom: 1rem;
-      color: #ff3333;
-      /* Add text shadow for readability over background if needed */
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      color: var(--primary-color);
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.9); /* Stronger shadow for main title */
     }
 
-    header p {
-      font-size: 1.5rem;
-      color: #ccc;
+    #home p {
+      font-size: var(--font-size-p-desktop);
+      color: var(--text-color-light);
       max-width: 800px;
       margin: auto;
-      /* Add text shadow for readability over background if needed */
       text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-      /* Ensure text doesn't collapse, even if empty */
-      min-height: 1em; /* Minimum height to ensure it takes space */
-      display: block; /* Ensure it's a block element */
+      min-height: 1.2em; /* Ensure it takes up space even if content is minimal */
     }
 
-    /* General H2 and P within sections */
-    h2 {
-      font-size: 2.5rem;
-      color: #ff3333;
-      margin-bottom: 1rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.8); /* Add text shadow for readability */
+    /* --- General Section Content (for all other sections) --- */
+    .section:not(#home) h2 { /* Apply to H2s not in the home section */
+      font-size: var(--font-size-h2-desktop);
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
     }
 
-    /* Apply the consistent "big" text size to all relevant text in hash sections */
-    .section p,
-    .section ul li {
-      font-size: var(--text-size-desktop); /* Use the CSS variable for desktop text size */
+    .section:not(#home) p,
+    .section:not(#home) ul li { /* Apply to paragraphs and list items not in home section */
+      font-size: var(--font-size-p-desktop);
       line-height: 1.6;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.8); /* Add text shadow for readability */
-      min-height: 1em; /* Ensure list items and paragraphs take space */
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+      margin-bottom: 0.8rem; /* Space between paragraphs/list items */
+    }
+
+    .section ul {
+        list-style: none; /* Remove default list bullets */
+        padding-left: 0;
+    }
+
+    .section ul li::before {
+        content: '• '; /* Custom bullet point */
+        color: var(--primary-color);
+        font-weight: bold;
+        display: inline-block;
+        width: 1em; /* Space for bullet */
+        margin-left: -1em; /* Pull bullet left */
     }
 
     a.link {
-      color: #44ccff;
+      color: var(--secondary-color);
       text-decoration: none;
+      transition: text-decoration 0.3s ease;
     }
 
     a.link:hover {
@@ -166,19 +203,20 @@
       border-radius: 10px;
     }
 
-    /* Footer */
+    /* --- Footer --- */
     .footer {
       text-align: center;
       padding: 1.5rem;
-      font-size: 1rem;
-      color: #aaa;
+      font-size: var(--font-size-footer);
+      color: var(--text-color-light);
       position: relative;
       z-index: 10;
-      background-color: rgba(0, 0, 0, 0.7); /* Subtle background for footer as it's often at the bottom */
+      background-color: rgba(0, 0, 0, 0.7); /* Consistent background for footer */
     }
 
-    /* --- Mobile View Adjustments (max-width: 600px) --- */
-    @media (max-width: 600px) {
+    /* --- Mobile Responsive (max-width: 768px - slightly larger breakpoint for tablets/smaller desktops) --- */
+    @media (max-width: 768px) {
+      /* Navigation */
       nav {
         flex-direction: column;
         gap: 0.5rem;
@@ -186,41 +224,74 @@
       }
 
       nav a {
-        width: 90%;
-        margin: 0 auto;
+        width: 95%; /* Make nav links wider on mobile */
+        margin: 0 auto; /* Center them */
         text-align: center;
         padding: 0.6rem;
-        font-size: 1rem;
+        font-size: var(--font-size-nav-mobile);
       }
 
-      /* Home Header on Mobile */
-      header {
-        padding: 4rem 1rem 2rem;
+      /* Section Wrapper for Mobile */
+      .section-wrapper {
+        margin: 10px auto; /* Less margin on mobile */
+        padding: 0 0.5rem; /* Reduce wrapper padding */
       }
 
-      header h1 {
-        font-size: 2.5rem; /* Adjusted for mobile home title */
+      /* Sections on Mobile */
+      .section {
+        padding: 2.5rem 1.5rem 3rem; /* Adjust internal padding for mobile sections */
+        border-radius: 5px; /* Slightly less rounded corners for mobile */
+      }
+
+      /* Home Section on Mobile */
+      #home.section {
+        padding: 6rem 1rem 3rem; /* Adjusted header padding for mobile */
+      }
+
+      #home h1 {
+        font-size: var(--font-size-h1-mobile); /* Mobile H1 size */
         line-height: 1.2;
       }
 
-      header p {
-        font-size: 1.1rem; /* Smaller paragraph for mobile home text */
+      #home p {
+        font-size: var(--font-size-p-mobile); /* Mobile paragraph size for home */
       }
 
-      .section {
-        padding: 2.5rem 1.5rem 3rem;
-        margin: 10px auto;
+      /* General Section Content on Mobile */
+      .section:not(#home) h2 {
+        font-size: var(--font-size-h2-mobile); /* Mobile H2 size */
+        margin-bottom: 1rem;
       }
 
-      h2 {
-        font-size: 1.8rem;
+      .section:not(#home) p,
+      .section:not(#home) ul li {
+        font-size: var(--font-size-p-mobile); /* Mobile paragraph/list item size */
+        margin-bottom: 0.5rem;
       }
 
-      /* Adjust text size for mobile for all relevant text in hash sections */
-      .section p,
-      .section ul li {
-        font-size: 0.95rem;
+      .news-img {
+          margin: 1rem auto; /* Less margin for news image on mobile */
       }
+    }
+
+    /* Smaller mobile devices (e.g., old phones) */
+    @media (max-width: 480px) {
+        #home h1 {
+            font-size: 2rem; /* Even smaller H1 for very small screens */
+        }
+        #home p {
+            font-size: 1rem; /* Even smaller paragraph for very small screens */
+        }
+        .section {
+            padding: 2rem 1rem; /* Further reduce section padding */
+        }
+        .section:not(#home) h2 {
+            font-size: 1.5rem;
+        }
+        .section:not(#home) p,
+        .section:not(#home) ul li {
+            font-size: 0.9rem;
+        }
     }
   </style>
 </head>
@@ -242,56 +313,54 @@
     <a href="#contact">Contact</a>
   </nav>
 
-  <section id="home" class="section">
-    <header>
+  <div class="section-wrapper">
+    <section id="home" class="section">
       <h1>2B2TMCPE HUB</h1>
       <p>The hub for all the essentials of the 2b2tMCPE community — related websites, Discord servers, projects, and more.</p>
-    </header>
-  </section>
+    </section>
 
-  <section id="discords" class="section">
-    <h2>Discord Servers</h2>
-    <ul>
-      <li><a href="https://discord.gg/ZFHevJ9bdW" class="link">2b2tMCPE Central</a> — Main community server for news, chat, and updates.</li>
-      <li><a href="https://discord.gg/gUycebGvEs" class="link">Tim's MCPE Library</a> — Historical archives of 2b2tMCPE history and content.</li>
-      <li><a href="https://discord.gg/eUsE2kpB7u" class="link">Mapart Archive</a> — Repository of community-created map art.</li>
-      <li><a href="https://discord.gg/YkreMTvjvV" class="link">2b2tMCPE Wiki Server</a> — Hub for wiki collaboration and general discussion.</li>
-    </ul>
-  </section>
+    <section id="discords" class="section">
+      <h2>Discord Servers</h2>
+      <ul>
+        <li><a href="https://discord.gg/ZFHevJ9bdW" class="link">2b2tMCPE Central</a> — Main community server for news, chat, and updates.</li>
+        <li><a href="https://discord.gg/gUycebGvEs" class="link">Tim's MCPE Library</a> — Historical archives of 2b2tMCPE history and content.</li>
+        <li><a href="https://discord.gg/eUsE2kpB7u" class="link">Mapart Archive</a> — Repository of community-created map art.</li>
+        <li><a href="https://discord.gg/YkreMTvjvV" class="link">2b2tMCPE Wiki Server</a> — Hub for wiki collaboration and general discussion.</li>
+      </ul>
+    </section>
 
-  <section id="projects" class="section">
-    <h2>Featured Project</h2>
-    <p><strong>Lookup Bot</strong> — Discord bot to lookup player join dates on 2b2tMCPE by username.</p>
-    <p>Credits: <a class="link" href="https://github.com/kaiowns">kaiowns</a>, <a class="link" href="https://github.com/elpablo5542">elpablo5542</a></p>
-  </section>
+    <section id="projects" class="section">
+      <h2>Featured Project</h2>
+      <p><strong>Lookup Bot</strong> — Discord bot to lookup player join dates on 2b2tMCPE by username.</p>
+      <p>Credits: <a class="link" href="https://github.com/kaiowns">kaiowns</a>, <a class="link" href="https://github.com/elpablo5542">elpablo5542</a></p>
+    </section>
 
-  <section id="wiki" class="section">
-    <h2>2b2tMCPE Wiki</h2>
-    <p>Explore the growing knowledge base of 2b2tMCPE players and events.</p>
-    <a class="link" href="https://example.com">Visit the Wiki</a>
-  </section>
+    <section id="wiki" class="section">
+      <h2>2b2tMCPE Wiki</h2>
+      <p>Explore the growing knowledge base of 2b2tMCPE players and events.</p>
+      <a class="link" href="https://example.com" class="link">Visit the Wiki</a>
+    </section>
 
-  <section id="news" class="section">
-    <h2>2b2tMCPE Weekly News</h2>
-    <p><strong>Headline:</strong> Editable headline goes here</p>
-    <p><strong>Date:</strong> Editable date</p>
-    <img src="https://via.placeholder.com/1000x500" alt="News Image" class="news-img">
-    <p>This is a placeholder paragraph for the weekly update. Admins can update this section in the files directly.</p>
-  </section>
+    <section id="news" class="section">
+      <h2>2b2tMCPE Weekly News</h2>
+      <p><strong>Headline:</strong> Editable headline goes here</p>
+      <p><strong>Date:</strong> Editable date</p>
+      <img src="https://via.placeholder.com/1000x500" alt="News Image" class="news-img">
+      <p>This is a placeholder paragraph for the weekly update. Admins can update this section in the files directly.</p>
+    </section>
 
-  <section id="contact" class="section">
-    <h2>Contact</h2>
-    <p>Email: example@example.com</p>
-    <p>Discord contacts:</p>
-    <ul>
-      <li>@admin#1234</li>
-      <li>@mod#5678</li>
-      <li>@support#9876</li>
-      <li>@dev#5432</li>
-    </ul>
-  </section>
-
-  <div class="footer">
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <p>Email: example@example.com</p>
+      <p>Discord contacts:</p>
+      <ul>
+        <li>@admin#1234</li>
+        <li>@mod#5678</li>
+        <li>@support#9876</li>
+        <li>@dev#5432</li>
+      </ul>
+    </section>
+  </div> <div class="footer">
     © 2025 2B2TMCPE Hub. All rights reserved.
   </div>
 
@@ -302,6 +371,15 @@
       sections.forEach(sec => {
         sec.classList.toggle('active', sec.id === hash);
       });
+      // Scroll to the active section or top of page if hash is "home"
+      const activeSection = document.getElementById(hash);
+      if (activeSection) {
+        if (hash === 'home') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          activeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
     }
     window.addEventListener('hashchange', showHashSection);
     window.addEventListener('load', showHashSection);
