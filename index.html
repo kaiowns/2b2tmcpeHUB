@@ -6,10 +6,11 @@
   <title>2B2TMCPE HUB</title>
   <style>
     :root {
-      --bg: #f4f4f4;
-      --text: #111;
-      --accent: #0077ff;
-      --muted: #666;
+      --bg: #121212;
+      --text: #f2f2f2;
+      --accent: #9e1b1b;
+      --muted: #aaa;
+      --footer-bg: #1a1a1a;
     }
 
     * {
@@ -18,7 +19,13 @@
       padding: 0;
     }
 
+    html, body {
+      height: 100%;
+    }
+
     body {
+      display: flex;
+      flex-direction: column;
       font-family: 'Segoe UI', sans-serif;
       background-color: var(--bg);
       color: var(--text);
@@ -30,12 +37,12 @@
       display: flex;
       justify-content: center;
       gap: 2rem;
-      background: white;
+      background: #181818;
       padding: 1.2rem 2rem;
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #2a2a2a;
     }
 
     nav a {
@@ -46,6 +53,7 @@
     }
 
     .container {
+      flex: 1;
       width: 100%;
       max-width: 1400px;
       padding: 3rem 4rem;
@@ -85,9 +93,8 @@
       padding: 2rem;
       font-size: 0.9rem;
       color: var(--muted);
-      background: white;
-      margin-top: 4rem;
-      border-top: 1px solid #ddd;
+      background: var(--footer-bg);
+      border-top: 1px solid #2a2a2a;
     }
 
     @keyframes fade {
@@ -115,7 +122,7 @@
     .news-image img {
       width: 100%;
       border-radius: 12px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
     }
 
     @media (max-width: 768px) {
