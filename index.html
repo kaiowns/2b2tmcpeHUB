@@ -6,13 +6,10 @@
   <title>2B2TMCPE HUB</title>
   <style>
     :root {
-      --bg: #f4f5f7;
-      --card-bg: #ffffff;
-      --accent: #007bff;
-      --text: #222;
+      --bg: #f4f4f4;
+      --text: #111;
+      --accent: #0077ff;
       --muted: #666;
-      --radius: 12px;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     }
 
     * {
@@ -25,44 +22,39 @@
       font-family: 'Segoe UI', sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      line-height: 1.6;
+      font-size: 18px;
     }
 
     nav {
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
+      gap: 2rem;
       background: white;
-      padding: 1rem;
-      box-shadow: var(--shadow);
+      padding: 1.2rem 2rem;
       position: sticky;
       top: 0;
       z-index: 100;
+      border-bottom: 1px solid #ddd;
     }
 
     nav a {
       text-decoration: none;
       color: var(--accent);
-      font-weight: bold;
-      font-size: 1rem;
+      font-weight: 600;
+      font-size: 1.1rem;
     }
 
     .container {
-      max-width: 960px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-      flex-grow: 1;
+      width: 100%;
+      max-width: 1400px;
+      padding: 3rem 4rem;
+      margin: 0 auto;
     }
 
     .page {
       display: none;
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 2rem;
-      animation: fade 0.3s ease;
+      animation: fade 0.2s ease-in-out;
     }
 
     .page.active {
@@ -70,22 +62,17 @@
     }
 
     h1, h2 {
+      font-size: 2.2rem;
       margin-bottom: 1rem;
       color: var(--accent);
     }
 
-    p {
-      margin-bottom: 1rem;
-      line-height: 1.6;
+    p, ul li {
+      margin-bottom: 1.2rem;
     }
 
     ul {
-      padding-left: 1.2rem;
-      margin-bottom: 1rem;
-    }
-
-    ul li {
-      margin-bottom: 0.5rem;
+      padding-left: 1.5rem;
     }
 
     a.link {
@@ -95,11 +82,12 @@
 
     footer {
       text-align: center;
-      padding: 1rem;
+      padding: 2rem;
       font-size: 0.9rem;
       color: var(--muted);
       background: white;
-      box-shadow: var(--shadow);
+      margin-top: 4rem;
+      border-top: 1px solid #ddd;
     }
 
     @keyframes fade {
@@ -107,14 +95,41 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 600px) {
-      nav {
-        flex-wrap: wrap;
-        gap: 0.8rem;
+    .news-layout {
+      display: flex;
+      flex-direction: row;
+      gap: 3rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .news-content {
+      flex: 1 1 60%;
+    }
+
+    .news-image {
+      flex: 1 1 35%;
+      max-width: 500px;
+    }
+
+    .news-image img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 2rem;
       }
 
-      .page {
-        padding: 1.5rem;
+      nav {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .news-layout {
+        flex-direction: column;
       }
     }
   </style>
@@ -133,63 +148,64 @@
   <div class="container">
     <section id="home" class="page active">
       <h1>Welcome to 2B2TMCPE HUB</h1>
-      <p>Your central hub for everything 2b2tMCPE — communities, projects, and info.</p>
+      <p>This is your central place for 2b2tMCPE servers, community Discords, tools, and history.</p>
     </section>
 
     <section id="discords" class="page">
-      <h2>Discord Servers</h2>
+      <h2>Community Discords</h2>
       <ul>
-        <li><a class="link" href="https://discord.gg/ZFHevJ9bdW">2b2tMCPE Central</a> — Main hub.</li>
-        <li><a class="link" href="https://discord.gg/gUycebGvEs">Tim's MCPE Library</a> — Archives & lore.</li>
-        <li><a class="link" href="https://discord.gg/eUsE2kpB7u">Mapart Archive</a> — Map art gallery.</li>
-        <li><a class="link" href="https://discord.gg/YkreMTvjvV">Wiki Server</a> — Wiki collab & chat.</li>
+        <li><a class="link" href="https://discord.gg/ZFHevJ9bdW">2b2tMCPE Central</a> — Main server hub.</li>
+        <li><a class="link" href="https://discord.gg/gUycebGvEs">Tim’s MCPE Library</a> — Lore, history, and archives.</li>
+        <li><a class="link" href="https://discord.gg/eUsE2kpB7u">Mapart Archive</a> — Map art collections.</li>
+        <li><a class="link" href="https://discord.gg/YkreMTvjvV">Wiki Server</a> — Community edits and wiki chat.</li>
       </ul>
     </section>
 
     <section id="projects" class="page">
-      <h2>Featured Project: Lookup Bot</h2>
-      <p>Discord bot to look up player join dates on 2b2tMCPE.</p>
+      <h2>Project: Lookup Bot</h2>
+      <p>A bot to look up player join dates in 2b2tMCPE servers.</p>
       <p>Made by <a class="link" href="https://github.com/kaiowns">kaiowns</a> and <a class="link" href="https://github.com/elpablo5542">elpablo5542</a>.</p>
     </section>
 
     <section id="wiki" class="page">
       <h2>2b2tMCPE Wiki</h2>
-      <p>Explore community knowledge about the server, players, and history.</p>
-      <p><a class="link" href="#">Visit the Wiki</a></p>
+      <p>The community’s archive for players, events, and lore.</p>
+      <p><a class="link" href="#">View the Wiki</a></p>
     </section>
 
     <section id="news" class="page">
-      <h2>Weekly News</h2>
-      <p><strong>Headline:</strong> Latest News Title</p>
-      <p><strong>Date:</strong> June 18, 2025</p>
-      <p>This week, a major base was found and griefed. More updates soon.</p>
+      <h2>Latest News</h2>
+      <div class="news-layout">
+        <div class="news-content">
+          <p><strong>June 18, 2025:</strong> Major grief occurred at a historical base, sparking war between groups. Multiple factions claim responsibility, with videos circulating on Discord.</p>
+          <p>Stay tuned for weekly recaps.</p>
+        </div>
+        <div class="news-image">
+          <img src="https://i.imgur.com/NfX8k7J.jpg" alt="Base destruction">
+        </div>
+      </div>
     </section>
 
     <section id="contact" class="page">
-      <h2>Contact Us</h2>
-      <p>Email: example@example.com</p>
-      <p>Discords:</p>
-      <ul>
-        <li>@admin#1234</li>
-        <li>@mod#5678</li>
-        <li>@support#9876</li>
-      </ul>
+      <h2>Contact & Feedback</h2>
+      <p>Got suggestions? DM the admin on Discord or email us at <a class="link" href="mailto:contact@2b2tmcpe.com">contact@2b2tmcpe.com</a></p>
     </section>
   </div>
 
-  <footer>© 2025 2B2TMCPE Hub. All rights reserved.</footer>
+  <footer>
+    &copy; 2025 2b2tMCPE HUB. All rights reserved.
+  </footer>
 
   <script>
-    const pages = document.querySelectorAll('.page');
-    function loadPageFromHash() {
-      const hash = location.hash.replace('#', '') || 'home';
-      pages.forEach(page => {
-        page.classList.toggle('active', page.id === hash);
-      });
+    function setActivePage() {
+      const hash = window.location.hash || '#home';
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const target = document.querySelector(hash);
+      if (target) target.classList.add('active');
     }
-    window.addEventListener('hashchange', loadPageFromHash);
-    window.addEventListener('load', loadPageFromHash);
-  </script>
 
+    window.addEventListener('hashchange', setActivePage);
+    window.addEventListener('DOMContentLoaded', setActivePage);
+  </script>
 </body>
-  </html>
+      </html>
