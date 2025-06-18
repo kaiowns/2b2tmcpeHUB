@@ -1,65 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>2B2TMCPE HUB</title>
   <style>
-    /* --- Global Resets & Variables --- */
     :root {
-      --primary-color: #ff3333; /* For headings and accents */
-      --secondary-color: #44ccff; /* For links */
-      --text-color-light: #ccc;
-      --text-color-white: #fff;
-      --background-dark: #000;
-
-      --font-family-base: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-      /* Desktop Sizes */
-      --font-size-nav: 1.1rem;
-      --font-size-h1-desktop: 4rem;
-      --font-size-h2-desktop: 2.5rem;
-      --font-size-p-desktop: 1.25rem;
-      --font-size-footer: 1rem;
-
-      /* Mobile Sizes */
-      --font-size-h1-mobile: 2.5rem;
-      --font-size-h2-mobile: 1.8rem;
-      --font-size-p-mobile: 1.1rem; /* Slightly larger for main text readability on mobile */
-      --font-size-nav-mobile: 1rem;
+      --primary-color: #ff3333;
+      --secondary-color: #44ccff;
+      --bg-overlay: rgba(0, 0, 0, 0.4);
+      --text-light: #ccc;
+      --text-white: #fff;
+      --font-main: 'Segoe UI', Tahoma, sans-serif;
     }
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
-    html, body {
-      height: 100%;
-      font-family: var(--font-family-base);
-      color: var(--text-color-white);
-      background-color: var(--background-dark); /* Fallback background */
-      overflow-x: hidden; /* Prevent horizontal scroll */
-      position: relative; /* For body::before overlay */
+    body, html {
+      font-family: var(--font-main);
+      color: var(--text-white);
+      background: black;
+      overflow-x: hidden;
     }
 
-    /* --- Background Slideshow & Overlay --- */
     .slideshow-bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
-      z-index: -2; /* Deepest layer */
-      overflow: hidden;
+      height: 100vh;
+      z-index: -1;
     }
 
     .slideshow-bg img {
+      position: absolute;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      position: absolute;
       opacity: 0;
       transition: opacity 1s ease-in-out;
     }
@@ -68,127 +49,70 @@
       opacity: 1;
     }
 
-    /* Global semi-transparent overlay to ensure text readability over bright/busy images */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.6); /* Adjust transparency here (0.4 for lighter, 0.8 for darker) */
-      z-index: -1; /* Above slideshow, below content */
-    }
-
-    /* --- Navigation Bar --- */
     nav {
-      background-color: transparent; /* Remains transparent */
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      background: rgba(0,0,0,0.6);
       padding: 1rem;
-      gap: 1rem;
-      position: relative; /* Ensures it's above the body::before overlay */
-      z-index: 10; /* High z-index */
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
     }
 
     nav a {
       color: var(--primary-color);
+      margin: 0 1rem;
       text-decoration: none;
       font-weight: bold;
-      padding: 0.75rem 1.25rem;
-      font-size: var(--font-size-nav);
-      transition: background 0.3s ease, color 0.3s ease;
-      white-space: nowrap; /* Prevent nav links from breaking onto multiple lines */
+      font-size: 1.1rem;
+      transition: color 0.3s;
     }
 
     nav a:hover {
-      background: var(--primary-color);
-      color: var(--background-dark);
-      border-radius: 5px;
+      color: white;
     }
 
-    /* --- Main Content Sections --- */
     .section-wrapper {
-      /* This wrapper ensures content is centered and takes space, allowing slideshow to be seen around it */
-      max-width: 1200px;
-      margin: 20px auto; /* Centered with some margin */
-      padding: 0 1rem; /* Padding for small screens, removed from .section */
-      position: relative; /* To contain its children and ensure z-index */
-      z-index: 1; /* Above the body::before overlay */
-    }
-
-    .section {
-      display: none;
-      padding: 4rem 3rem 6rem; /* Internal padding for content */
-      background-color: rgba(0, 0, 0, 0.7); /* **Subtle background for content readability inside sections** */
-      border-radius: 10px;
-      margin-bottom: 20px; /* Space between sections if multiple were active (though not used currently) */
-      min-height: calc(85vh - 60px); /* Ensures sections take up vertical space */
-    }
-
-    .section.active {
-      display: block;
-    }
-
-    /* --- Header (Home Page) --- */
-    #home.section {
-      /* Specific styling for the home section to stand out */
-      background-color: rgba(0, 0, 0, 0.6); /* Slightly more transparent for home */
-      text-align: center;
-      padding: 8rem 2rem 4rem; /* Adjusted header padding */
-    }
-
-    #home h1 {
-      font-size: var(--font-size-h1-desktop);
-      margin-bottom: 1rem;
-      color: var(--primary-color);
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.9); /* Stronger shadow for main title */
-    }
-
-    #home p {
-      font-size: var(--font-size-p-desktop);
-      color: var(--text-color-light);
-      max-width: 800px;
+      max-width: 1000px;
       margin: auto;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-      min-height: 1.2em; /* Ensure it takes up space even if content is minimal */
+      padding: 4rem 1rem;
     }
 
-    /* --- General Section Content (for all other sections) --- */
-    .section:not(#home) h2 { /* Apply to H2s not in the home section */
-      font-size: var(--font-size-h2-desktop);
+    section {
+      background: rgba(0,0,0,0.6);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    h1, h2 {
       color: var(--primary-color);
-      margin-bottom: 1.5rem;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
     }
 
-    .section:not(#home) p,
-    .section:not(#home) ul li { /* Apply to paragraphs and list items not in home section */
-      font-size: var(--font-size-p-desktop);
+    p, li {
+      font-size: 1.1rem;
       line-height: 1.6;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-      margin-bottom: 0.8rem; /* Space between paragraphs/list items */
+      color: var(--text-light);
     }
 
-    .section ul {
-        list-style: none; /* Remove default list bullets */
-        padding-left: 0;
+    ul {
+      list-style: none;
+      padding-left: 0;
     }
 
-    .section ul li::before {
-        content: '• '; /* Custom bullet point */
-        color: var(--primary-color);
-        font-weight: bold;
-        display: inline-block;
-        width: 1em; /* Space for bullet */
-        margin-left: -1em; /* Pull bullet left */
+    ul li::before {
+      content: "• ";
+      color: var(--primary-color);
+      margin-right: 0.5rem;
     }
 
     a.link {
       color: var(--secondary-color);
       text-decoration: none;
-      transition: text-decoration 0.3s ease;
     }
 
     a.link:hover {
@@ -197,101 +121,27 @@
 
     .news-img {
       width: 100%;
-      max-width: 800px;
-      display: block;
-      margin: 2rem auto;
       border-radius: 10px;
+      margin: 1.5rem 0;
     }
 
-    /* --- Footer --- */
     .footer {
       text-align: center;
-      padding: 1.5rem;
-      font-size: var(--font-size-footer);
-      color: var(--text-color-light);
-      position: relative;
-      z-index: 10;
-      background-color: rgba(0, 0, 0, 0.7); /* Consistent background for footer */
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      background: rgba(0,0,0,0.6);
     }
 
-    /* --- Mobile Responsive (max-width: 768px - slightly larger breakpoint for tablets/smaller desktops) --- */
     @media (max-width: 768px) {
-      /* Navigation */
       nav {
         flex-direction: column;
-        gap: 0.5rem;
-        padding: 0.5rem;
+        align-items: center;
       }
 
       nav a {
-        width: 95%; /* Make nav links wider on mobile */
-        margin: 0 auto; /* Center them */
-        text-align: center;
-        padding: 0.6rem;
-        font-size: var(--font-size-nav-mobile);
+        margin: 0.5rem 0;
       }
-
-      /* Section Wrapper for Mobile */
-      .section-wrapper {
-        margin: 10px auto; /* Less margin on mobile */
-        padding: 0 0.5rem; /* Reduce wrapper padding */
-      }
-
-      /* Sections on Mobile */
-      .section {
-        padding: 2.5rem 1.5rem 3rem; /* Adjust internal padding for mobile sections */
-        border-radius: 5px; /* Slightly less rounded corners for mobile */
-      }
-
-      /* Home Section on Mobile */
-      #home.section {
-        padding: 6rem 1rem 3rem; /* Adjusted header padding for mobile */
-      }
-
-      #home h1 {
-        font-size: var(--font-size-h1-mobile); /* Mobile H1 size */
-        line-height: 1.2;
-      }
-
-      #home p {
-        font-size: var(--font-size-p-mobile); /* Mobile paragraph size for home */
-      }
-
-      /* General Section Content on Mobile */
-      .section:not(#home) h2 {
-        font-size: var(--font-size-h2-mobile); /* Mobile H2 size */
-        margin-bottom: 1rem;
-      }
-
-      .section:not(#home) p,
-      .section:not(#home) ul li {
-        font-size: var(--font-size-p-mobile); /* Mobile paragraph/list item size */
-        margin-bottom: 0.5rem;
-      }
-
-      .news-img {
-          margin: 1rem auto; /* Less margin for news image on mobile */
-      }
-    }
-
-    /* Smaller mobile devices (e.g., old phones) */
-    @media (max-width: 480px) {
-        #home h1 {
-            font-size: 2rem; /* Even smaller H1 for very small screens */
-        }
-        #home p {
-            font-size: 1rem; /* Even smaller paragraph for very small screens */
-        }
-        .section {
-            padding: 2rem 1rem; /* Further reduce section padding */
-        }
-        .section:not(#home) h2 {
-            font-size: 1.5rem;
-        }
-        .section:not(#home) p,
-        .section:not(#home) ul li {
-            font-size: 0.9rem;
-        }
     }
   </style>
 </head>
@@ -314,12 +164,12 @@
   </nav>
 
   <div class="section-wrapper">
-    <section id="home" class="section">
+    <section id="home">
       <h1>2B2TMCPE HUB</h1>
       <p>The hub for all the essentials of the 2b2tMCPE community — related websites, Discord servers, projects, and more.</p>
     </section>
 
-    <section id="discords" class="section">
+    <section id="discords">
       <h2>Discord Servers</h2>
       <ul>
         <li><a href="https://discord.gg/ZFHevJ9bdW" class="link">2b2tMCPE Central</a> — Main community server for news, chat, and updates.</li>
@@ -329,19 +179,19 @@
       </ul>
     </section>
 
-    <section id="projects" class="section">
+    <section id="projects">
       <h2>Featured Project</h2>
       <p><strong>Lookup Bot</strong> — Discord bot to lookup player join dates on 2b2tMCPE by username.</p>
       <p>Credits: <a class="link" href="https://github.com/kaiowns">kaiowns</a>, <a class="link" href="https://github.com/elpablo5542">elpablo5542</a></p>
     </section>
 
-    <section id="wiki" class="section">
+    <section id="wiki">
       <h2>2b2tMCPE Wiki</h2>
       <p>Explore the growing knowledge base of 2b2tMCPE players and events.</p>
-      <a class="link" href="https://example.com" class="link">Visit the Wiki</a>
+      <a class="link" href="https://example.com">Visit the Wiki</a>
     </section>
 
-    <section id="news" class="section">
+    <section id="news">
       <h2>2b2tMCPE Weekly News</h2>
       <p><strong>Headline:</strong> Editable headline goes here</p>
       <p><strong>Date:</strong> Editable date</p>
@@ -349,7 +199,7 @@
       <p>This is a placeholder paragraph for the weekly update. Admins can update this section in the files directly.</p>
     </section>
 
-    <section id="contact" class="section">
+    <section id="contact">
       <h2>Contact</h2>
       <p>Email: example@example.com</p>
       <p>Discord contacts:</p>
@@ -360,31 +210,12 @@
         <li>@dev#5432</li>
       </ul>
     </section>
-  </div> <div class="footer">
-    © 2025 2B2TMCPE Hub. All rights reserved.
   </div>
 
-  <script>
-    const sections = document.querySelectorAll('.section');
-    function showHashSection() {
-      const hash = window.location.hash.substring(1) || 'home';
-      sections.forEach(sec => {
-        sec.classList.toggle('active', sec.id === hash);
-      });
-      // Scroll to the active section or top of page if hash is "home"
-      const activeSection = document.getElementById(hash);
-      if (activeSection) {
-        if (hash === 'home') {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          activeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
-    }
-    window.addEventListener('hashchange', showHashSection);
-    window.addEventListener('load', showHashSection);
+  <div class="footer">© 2025 2B2TMCPE Hub. All rights reserved.</div>
 
-    // Slideshow script
+  <script>
+    // Slideshow
     const slides = document.querySelectorAll('.slideshow-bg .slide');
     let current = 0;
     setInterval(() => {
@@ -392,7 +223,21 @@
       current = (current + 1) % slides.length;
       slides[current].classList.add('active');
     }, 5000);
+
+    // Navigation section scroll
+    document.querySelectorAll("nav a").forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        const id = link.getAttribute("href").substring(1);
+        const target = document.getElementById(id);
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: "smooth"
+          });
+        }
+      });
+    });
   </script>
 </body>
   </html>
-      
